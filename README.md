@@ -79,4 +79,3 @@ This project wouldn't have been possible without the contributions of various in
 - Hugging Face for providing access to the Maloney model through their API.
 ```
 
-Feel free to customize and expand this README further according to your project's specific requirements and features. If you have any more questions or need further assistance, feel free to ask!
