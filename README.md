@@ -1,4 +1,4 @@
-# Text to Image Website
+# Text-to-Image Website
 
 This is a web application that allows users to generate images from text descriptions using deep learning techniques.
 
@@ -14,34 +14,36 @@ This is a web application that allows users to generate images from text descrip
 ## Installation
 
 1. **Clone the Repository:**
+
    ```
    git clone https://github.com/Hafsanuruddin/Text-to-image-website.git
    ```
 
 2. **Install Dependencies:**
+
    ```
    pip install -r requirements.txt
    ```
 
 3. **Run the Application:**
+
    ```
    python app.py
    ```
 
 ## Usage
 
-1. **Access the Website:**
-   Open a web browser and navigate to `http://localhost:5000`.
-
-2. **Generate Images:**
-   - Enter a textual description in the provided input field.
-   - Alternatively, upload an image directly.
-   - Select a deep learning model from the options available.
-   - Click on the "Generate" button to create the image.
-
-3. **Save Images:**
-   - If logged in, users can save generated images to their account.
-   - Saved images can be accessed later from the user's gallery.
+- **Access the Website:** Open a web browser and navigate to http://localhost:5000.
+  
+- **Generate Images:**
+  - Enter a textual description in the provided input field.
+  - Alternatively, upload an image directly.
+  - Select a deep learning model from the options available.
+  - Click on the "Generate" button to create the image.
+  
+- **Save Images:**
+  - If logged in, users can save generated images to their account.
+  - Saved images can be accessed later from the user's gallery.
 
 ## Contributing
 
@@ -53,14 +55,28 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 4. Push your changes to the branch (`git push origin feature/improvement`).
 5. Create a new Pull Request.
 
+## Model Usage
+
+### Maloney Model (Powered by Hugging Face)
+
+Our application utilizes the Maloney model, provided by Hugging Face, for generating images from textual descriptions. To use this model:
+
+- Select "Maloney" from the available deep learning models when generating images.
+- Ensure that you have obtained the necessary API key from Hugging Face and configured it in the application settings.
+
+We extend our appreciation to Hugging Face for providing access to this powerful deep learning model through their API.
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgements
+## Acknowledgments
 
-- This project utilizes deep learning models trained on large-scale datasets. Acknowledgments to the creators and contributors of those models.
-- Special thanks to [Hafsanuruddin](https://github.com/Hafsanuruddin) for developing and sharing the initial version of this project.
+This project wouldn't have been possible without the contributions of various individuals and organizations. We would like to express our gratitude to:
 
----
-Feel free to customize and expand this README file according to your project's specific requirements and features. If you have any questions or need further assistance, please don't hesitate to reach out!
+- Hafsanuruddin for developing and sharing the initial version of this project.
+- The creators and contributors of the deep learning models used in this project.
+- Hugging Face for providing access to the Maloney model through their API.
+```
+
+Feel free to customize and expand this README further according to your project's specific requirements and features. If you have any more questions or need further assistance, feel free to ask!
