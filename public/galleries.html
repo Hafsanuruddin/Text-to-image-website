@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .navbar-brand {
+            margin-left: 20px;
+            font-size: 1.2em;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-links li {
+            margin-right: 20px;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .gallery-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .gallery-item {
+            position: relative;
+            width: 30%;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .gallery-item button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            margin-left: 5px;
+        }
+
+        .gallery-item .save-button {
+            right: 75px; /* Position Save button next to Delete button */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">Galaxy Generator</a>
+            <ul class="navbar-links" id="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li id="logout-link"><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="gallery-container" id="gallery-container">
+        <!-- Images will be inserted here by JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch user's images
+            fetch('/api/images')
+                .then(response => response.json())
+                .then(images => {
+                    console.log('Fetched images:', images); // Log fetched images
+                    const galleryContainer = document.getElementById('gallery-container');
+                    galleryContainer.innerHTML = '';
+                    images.forEach(image => {
+                        console.log('Processing image:', image.imageUrl); // Log each image URL
+                        const galleryItem = document.createElement('div');
+                        galleryItem.classList.add('gallery-item');
+                        
+                        const img = document.createElement('img');
+                        img.src = image.imageUrl;
+                        img.alt = 'Generated Image';  // Adding alt text to handle failed loads
+                        img.onerror = function() {
+                            console.error('Error loading image:', img.src); // Log loading errors
+                        };
+                        galleryItem.appendChild(img);
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.onclick = function() {
+                            deleteImage(image._id, galleryItem);
+                        };
+                        galleryItem.appendChild(deleteButton);
+
+                        const saveButton = document.createElement('button');
+                        saveButton.textContent = 'Save';
+                        saveButton.classList.add('save-button');
+                        saveButton.onclick = function() {
+                            saveImage(img.src);
+                        };
+                        galleryItem.appendChild(saveButton);
+
+                        galleryContainer.appendChild(galleryItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching images:', error);
+                    alert('Failed to load images.');
+                });
+
+            // Delete image
+            function deleteImage(imageId, galleryItem) {
+                fetch(`/api/image/${imageId}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            galleryItem.remove();
+                        } else {
+                            alert('Failed to delete image');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting image:', error);
+                        alert('Failed to delete image');
+                    });
+            }
+
+            // Save image
+            function saveImage(imageUrl) {
+                const a = document.createElement('a');
+                a.href = imageUrl;
+                a.download = 'image.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', async function() {
+                try {
+                    const response = await fetch('/api/auth/logout', {
+                        method: 'POST'
+                    });
+                    if (!response.ok) {
+                        throw new Error('Logout failed');
+                    }
+                    const data = await response.json();
+                    alert(data.message);
+                    window.location.href = 'index.html'; // Redirect to the home page
+                } catch (error) {
+                    console.error('Error logging out:', error);
+                    alert('Error logging out: ' + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

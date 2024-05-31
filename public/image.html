@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' blob: https://api-inference.huggingface.co; img-src 'self' data: blob:;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Images</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Generate Images</h1>
+        <a id="leftButton" href="index.html">Home</a>
+        <a id="rightButton" href="galleries.html">Galleries</a>
+    </header>
+    <main>
+        <div id="prompt" class="container">
+            <label for="input">Enter your text prompt:</label>
+            <input type="text" id="input" placeholder="E.g., A galaxy with stars and planets">
+            <button id="btn">Generate</button>
+        </div>    
+            <div id="feedback" ></div>
+
+        <div class="containerimg">
+            <img id="image" src="" alt="Generated Image">
+        </div>   
+             <button id="saveBtn" >Save Image</button>
+
+        <div id="gallery" class="container"></div>
+    </main>
+    <script src="js/script.js"></script>
+</body>
+</html>

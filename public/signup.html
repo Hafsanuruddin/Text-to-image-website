@@ -1,0 +1,173 @@
+<!-- signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        /* Signup Page CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(81, 78, 78, 0.8));
+            background-size: cover;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            height: auto;
+            border: 2px solid #ccc;
+            display: flex;
+            border-radius: 25px;
+            flex-wrap: wrap;
+            overflow: hidden;
+        }
+
+        .part1, .part2 {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .part1 {
+            border-radius: 25px 0 0 25px;
+            background-image: url(imgs/log3.jpeg);
+            background-size: cover;
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .part2 {
+            border-radius: 0 25px 25px 0;
+            background-color: #ffffff;
+            color: #000000;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        button {
+            display: block;
+            margin: 10px auto;
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 25px;
+            border: 2px solid #000000;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            font-family: 'Lucida Handwriting', cursive;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        #signupBtn {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .part1, .part2 {
+                border-radius: 25px;
+            }
+
+            input[type="text"],
+            input[type="password"],
+            input[type="email"],
+            button {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="part1">
+            <h2>Welcome!</h2>
+            <p>Sign up now and start using our services.</p>
+            <button id="signupBtn">Sign Up</button>
+            <p>Already a user??</p>
+            <button id="signinBtn" onclick="redirectToLoginPage()">Sign In</button>
+        </div>
+        <div class="part2">
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <input type="text" id="name" placeholder="Name" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function redirectToLoginPage() {
+    window.location.href = "login.html";
+}
+        // Function to handle form submission
+        document.getElementById("signupForm").addEventListener("submit", async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            // Validate password match
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return;
+            }
+
+            // Send form data to server
+            try {
+                const response = await fetch("/api/auth/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                if (response.ok) {
+                    alert("User registered successfully");
+                    window.location.href="login.html";
+                } else {
+                    const errorMessage = await response.text();
+                    alert("Error: " + errorMessage);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again later.");
+            }
+        });
+    </script>
+</body>
+</html>
